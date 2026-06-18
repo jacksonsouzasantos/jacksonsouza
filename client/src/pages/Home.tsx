@@ -1,27 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, CheckCircle2, TrendingUp, Users, Zap, Target, ArrowRight, Menu, X } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion'; // Adicionado AnimatePresence para o fechar do menu ficar suave
 
-/**
- * DESIGN PHILOSOPHY: Premium Dark Luxury - Editorial Edition
- * - Dark backgrounds (#0A0A0A, #141414) for premium feel
- * - Blue (#2563EB) for trust and expertise - PRIMARY SIGNATURE
- * - Yellow (#FACC15) for urgency and CTAs - ACTION SIGNATURE
- * - Playfair Display for headlines, Inter for body
- * - Asymmetric editorial layouts with dramatic composition
- * - Blue-to-yellow gradient lines as signature motif
- * - Smooth animations, strategic whitespace, conversion-focused
- */
-
-const whatsappNumber = '55 83 99816-1003'; // Replace with actual number
+const whatsappNumber = '55 83 99816-1003'; 
 
 const openWhatsApp = () => {
   const message = encodeURIComponent('Olá Jackson! Gostaria de solicitar um diagnóstico gratuito para minha empresa.');
   window.open(`https://wa.me/5583998161003?text=${message}`, '_blank');
 };
 
-// Animated counter component
 const Counter = ({ end, duration = 2000 }: { end: number; duration?: number }) => {
   const [count, setCount] = useState(0);
 
@@ -61,135 +49,92 @@ export default function Home() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
     },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden"> {/* Adicionado overflow-x-hidden para evitar quebras de scroll lateral */}
       {/* Header */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled ? 'bg-background/95 backdrop-blur-md border-b border-border' : 'bg-transparent'
         }`}
       >
-        <div className="container flex items-center justify-between h-16 md:h-20">
-          {/* Logo - Premium Brand Identity */}
+        <div className="container mx-auto px-4 flex items-center justify-between h-16 md:h-20">
+          {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="relative w-10 h-10 flex-shrink-0">
               <img
                 src="https://d2xsxph8kpxj0f.cloudfront.net/310519663687822829/QTZgq38mbQhk2GtBwKsHzo/logo-mark-hNT5c7rBkHgTovtU8hmmq9.webp"
                 alt="Jackson Souza"
-                className="w-full h-full"
+                className="w-full h-full object-contain"
               />
             </div>
-            <div className="hidden sm:block">
-              <div className="text-sm font-bold leading-tight">Jackson Souza</div>
-              <div className="text-xs text-gray-400">Tráfego Pago</div>
+            <div className="block"> {/* Mudado de hidden sm:block para block para manter identidade no mobile */}
+              <div className="text-xs sm:text-sm font-bold leading-tight">Jackson Souza</div>
+              <div className="text-[10px] sm:text-xs text-gray-400">Tráfego Pago</div>
             </div>
           </div>
 
           {/* Navigation - Desktop */}
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#inicio" className="text-sm font-medium hover:text-primary transition-colors">
-              Início
-            </a>
-            <a href="#servicos" className="text-sm font-medium hover:text-primary transition-colors">
-              Serviços
-            </a>
-            <a href="#resultados" className="text-sm font-medium hover:text-primary transition-colors">
-              Resultados
-            </a>
-            <a href="#sobre" className="text-sm font-medium hover:text-primary transition-colors">
-              Sobre
-            </a>
+            <a href="#inicio" className="text-sm font-medium hover:text-primary transition-colors">Início</a>
+            <a href="#servicos" className="text-sm font-medium hover:text-primary transition-colors">Serviços</a>
+            <a href="#resultados" className="text-sm font-medium hover:text-primary transition-colors">Resultados</a>
+            <a href="#sobre" className="text-sm font-medium hover:text-primary transition-colors">Sobre</a>
           </nav>
 
           {/* CTA Button - Desktop */}
-          <button
-            onClick={openWhatsApp}
-            className="hidden md:block btn-secondary text-sm md:text-base font-semibold"
-          >
+          <button onClick={openWhatsApp} className="hidden md:block btn-secondary text-sm md:text-base font-semibold">
             Diagnóstico Grátis
           </button>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-foreground hover:text-primary transition-colors"
+            className="md:hidden p-2 text-foreground hover:text-primary transition-colors z-50"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
         {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden bg-background/95 backdrop-blur-md border-b border-border"
-          >
-            <div className="container py-4 space-y-3">
-              <a
-                href="#inicio"
-                onClick={closeMobileMenu}
-                className="block px-4 py-2 text-sm font-medium hover:text-primary hover:bg-secondary/30 rounded-lg transition-colors"
-              >
-                Início
-              </a>
-              <a
-                href="#servicos"
-                onClick={closeMobileMenu}
-                className="block px-4 py-2 text-sm font-medium hover:text-primary hover:bg-secondary/30 rounded-lg transition-colors"
-              >
-                Serviços
-              </a>
-              <a
-                href="#resultados"
-                onClick={closeMobileMenu}
-                className="block px-4 py-2 text-sm font-medium hover:text-primary hover:bg-secondary/30 rounded-lg transition-colors"
-              >
-                Resultados
-              </a>
-              <a
-                href="#sobre"
-                onClick={closeMobileMenu}
-                className="block px-4 py-2 text-sm font-medium hover:text-primary hover:bg-secondary/30 rounded-lg transition-colors"
-              >
-                Sobre
-              </a>
-              <button
-                onClick={() => {
-                  openWhatsApp();
-                  closeMobileMenu();
-                }}
-                className="w-full btn-secondary text-sm font-semibold mt-4"
-              >
-                Diagnóstico Grátis
-              </button>
-            </div>
-          </motion.div>
-        )}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden bg-background/95 backdrop-blur-md border-b border-border overflow-hidden"
+            >
+              <div className="container mx-auto px-4 py-4 space-y-3">
+                <a href="#inicio" onClick={closeMobileMenu} className="block px-4 py-2 text-sm font-medium hover:text-primary hover:bg-secondary/30 rounded-lg transition-colors">Início</a>
+                <a href="#servicos" onClick={closeMobileMenu} className="block px-4 py-2 text-sm font-medium hover:text-primary hover:bg-secondary/30 rounded-lg transition-colors">Serviços</a>
+                <a href="#resultados" onClick={closeMobileMenu} className="block px-4 py-2 text-sm font-medium hover:text-primary hover:bg-secondary/30 rounded-lg transition-colors">Resultados</a>
+                <a href="#sobre" onClick={closeMobileMenu} className="block px-4 py-2 text-sm font-medium hover:text-primary hover:bg-secondary/30 rounded-lg transition-colors">Sobre</a>
+                <button
+                  onClick={() => { openWhatsApp(); closeMobileMenu(); }}
+                  className="w-full btn-secondary text-sm font-semibold mt-4 py-3"
+                >
+                  Diagnóstico Grátis
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
-      {/* Hero Section - Asymmetric Editorial */}
+      {/* Hero Section */}
       <section
         id="inicio"
-        className="relative min-h-screen pt-20 flex items-center overflow-hidden"
+        className="relative min-h-screen pt-24 pb-12 flex items-center overflow-hidden"
         style={{
           backgroundImage: 'url(https://d2xsxph8kpxj0f.cloudfront.net/310519663687822829/QTZgq38mbQhk2GtBwKsHzo/hero-abstract-bg-jcXQepmiCb24ZDabW3Gyhx.webp)',
           backgroundSize: 'cover',
@@ -198,58 +143,52 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
 
-        <div className="container relative z-10">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left Content - Bold Editorial */}
+            {/* Left Content */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="space-y-8"
+              className="space-y-6 md:space-y-8"
             >
-              {/* Signature gradient line */}
               <div className="w-16 h-1 bg-gradient-to-r from-primary to-accent" />
 
               <div>
-                <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-tight mb-8 tracking-tight">
-                  Sua empresa está perdendo clientes
+                {/* TIPOGRAFIA AJUSTADA AQUI PARA MOBILE */}
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-6 tracking-tight">
+                   Pare de perder os seus clientes
                 </h1>
-                <p className="text-xl text-gray-300 leading-relaxed max-w-lg">
+                <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-lg">
                   Enquanto seus concorrentes aparecem no Google e nas redes sociais, você fica para trás. Eu ajudo empresas locais a atrair mais clientes através de estratégias comprovadas de tráfego pago.
                 </p>
               </div>
 
-              {/* Trust Badges - Refined */}
-              <div className="space-y-3 pt-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
-                    <div className="w-2 h-2 bg-accent rounded-full" />
+              {/* Trust Badges */}
+              <div className="space-y-3 pt-2">
+                {[
+                  '6 anos de experiência em tecnologia',
+                  'Especialista em tráfego pago',
+                  'Estratégias focadas em resultados mensuráveis'
+                ].map((badge, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-2 h-2 bg-accent rounded-full" />
+                    </div>
+                    <span className="text-sm font-medium text-gray-200">{badge}</span>
                   </div>
-                  <span className="text-sm font-medium">6 anos de experiência em tecnologia</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
-                    <div className="w-2 h-2 bg-accent rounded-full" />
-                  </div>
-                  <span className="text-sm font-medium">Especialista em tráfego pago</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
-                    <div className="w-2 h-2 bg-accent rounded-full" />
-                  </div>
-                  <span className="text-sm font-medium">Estratégias focadas em resultados mensuráveis</span>
-                </div>
+                ))}
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                <button className="btn-primary flex items-center justify-center gap-2 text-base font-bold">
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <button className="btn-primary w-full sm:w-auto flex items-center justify-center gap-2 text-base font-bold py-3 px-6">
                   Quero Mais Clientes
                   <ArrowRight className="w-5 h-5" />
                 </button>
                 <button
                   onClick={openWhatsApp}
-                  className="btn-outline flex items-center justify-center gap-2 text-base font-bold"
+                  className="btn-outline w-full sm:w-auto flex items-center justify-center gap-2 text-base font-bold py-3 px-6"
                 >
                   <MessageCircle className="w-5 h-5" />
                   Falar no WhatsApp
@@ -257,7 +196,7 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Right Visual - Premium Glow */}
+            {/* Right Visual */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -265,15 +204,11 @@ export default function Home() {
               className="relative hidden md:block"
             >
               <div className="relative w-full aspect-square">
-                {/* Multi-layer glow effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/20 rounded-3xl blur-3xl" />
-                <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 to-primary/10 rounded-3xl blur-2xl" />
-                
-                {/* Image with premium border */}
                 <img
                   src="/logo02gestordetrafego.png"
                   alt="Jackson Souza"
-                  className="relative w-full h-full object-cover rounded-3xl border-2 border-primary/40 shadow-2xl shadow-primary/20"
+                  className="relative w-full h-full object-cover rounded-3xl border-2 border-primary/40 shadow-2xl"
                 />
               </div>
             </motion.div>
@@ -281,32 +216,29 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Problem Section - Asymmetric Right */}
-      <section id="problema" className="py-20 md:py-32 bg-secondary/20 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
-        
-        <div className="container">
-          <div className="grid md:grid-cols-2 gap-16 items-start">
-            {/* Left - Heading */}
+      {/* Problem Section */}
+      <section id="problema" className="py-16 md:py-32 bg-secondary/20 relative overflow-hidden">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
+              {/* TITULO AJUSTADO */}
+              <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight mb-6">
                 Seus clientes estão indo para a concorrência
               </h2>
               <div className="w-12 h-1 bg-gradient-to-r from-primary to-accent" />
             </motion.div>
 
-            {/* Right - Problem Cards */}
             <motion.div
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="space-y-4"
+              className="grid grid-cols-1 gap-4"
             >
               {[
                 { icon: '📞', text: 'Poucos clientes entrando em contato' },
@@ -323,44 +255,31 @@ export default function Home() {
                 >
                   <div className="flex items-center gap-4">
                     <span className="text-2xl flex-shrink-0">{problem.icon}</span>
-                    <p className="font-medium text-gray-200">{problem.text}</p>
+                    <p className="font-medium text-gray-200 text-sm sm:text-base">{problem.text}</p>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity" />
                 </motion.div>
               ))}
             </motion.div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="text-center mt-16"
-          >
-            <p className="text-lg text-gray-300 mb-8 font-medium">
+          <motion.div className="text-center mt-12 md:mt-16">
+            <p className="text-base sm:text-lg text-gray-300 mb-6 font-medium">
               Se você se identifica com esses problemas, é hora de agir.
             </p>
-            <button onClick={openWhatsApp} className="btn-secondary text-base font-bold">
+            <button onClick={openWhatsApp} className="btn-secondary text-base font-bold w-full sm:w-auto">
               Solicitar Análise Gratuita
             </button>
           </motion.div>
         </div>
       </section>
 
-      {/* Services Section - Premium Cards */}
-      <section id="servicos" className="py-20 md:py-32">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">Serviços Especializados</h2>
+      {/* Services Section */}
+      <section id="servicos" className="py-16 md:py-32">
+        <div className="container mx-auto px-4">
+          <motion.div className="mb-12 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4">Serviços Especializados</h2>
             <div className="w-12 h-1 bg-gradient-to-r from-primary to-accent" />
-            <p className="text-lg text-gray-300 mt-6 max-w-2xl">
+            <p className="text-base sm:text-lg text-gray-300 mt-4 max-w-2xl">
               Soluções completas de tráfego pago e marketing digital para empresas que querem crescer rápido.
             </p>
           </motion.div>
@@ -370,56 +289,29 @@ export default function Home() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
           >
             {[
-              {
-                title: 'Gestão de Tráfego Pago',
-                description: 'Campanhas otimizadas para gerar leads e vendas com ROI comprovado.',
-                icon: TrendingUp,
-              },
-              {
-                title: 'Google Ads',
-                description: 'Apareça para quem está procurando seus serviços agora mesmo.',
-                icon: Target,
-              },
-              {
-                title: 'Meta Ads',
-                description: 'Anúncios estratégicos no Instagram e Facebook para sua audiência certa.',
-                icon: Users,
-              },
-              {
-                title: 'Landing Pages',
-                description: 'Páginas de alta conversão desenvolvidas para transformar visitantes em clientes.',
-                icon: Zap,
-              },
-              {
-                title: 'Consultoria Digital',
-                description: 'Estratégias personalizadas e mensuráveis para crescimento acelerado.',
-                icon: Target,
-              },
-              {
-                title: 'Automações',
-                description: 'Sistemas que reduzem trabalho manual e aumentam a produtividade.',
-                icon: Zap,
-              },
+              { title: 'Gestão de Tráfego Pago', description: 'Campanhas otimizadas para gerar leads e vendas com ROI comprovado.', icon: TrendingUp },
+              { title: 'Google Ads', description: 'Apareça para quem está procurando seus serviços agora mesmo.', icon: Target },
+              { title: 'Meta Ads', description: 'Anúncios estratégicos no Instagram e Facebook para sua audiência certa.', icon: Users },
+              { title: 'Landing Pages', description: 'Páginas de alta conversão desenvolvidas para transformar visitantes em clientes.', icon: Zap },
+              { title: 'Consultoria Digital', description: 'Estratégias personalizadas e mensuráveis para crescimento acelerado.', icon: Target },
+              { title: 'Automações', description: 'Sistemas que reduzem trabalho manual e aumentam a produtividade.', icon: Zap },
             ].map((service, index) => {
               const Icon = service.icon;
               return (
                 <motion.div
                   key={index}
                   variants={itemVariants}
-                  className="group relative bg-gradient-to-br from-card to-secondary/30 border border-primary/20 rounded-2xl p-8 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300"
+                  className="group relative bg-gradient-to-br from-card to-secondary/30 border border-primary/20 rounded-2xl p-6 md:p-8 hover:border-primary/50 transition-all duration-300"
                 >
-                  {/* Gradient overlay on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                  
                   <div className="relative z-10">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-accent/10 flex items-center justify-center mb-6 group-hover:from-primary/30 group-hover:to-accent/20 transition-all">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-accent/10 flex items-center justify-center mb-6">
                       <Icon className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{service.title}</h3>
-                    <p className="text-gray-300 leading-relaxed">{service.description}</p>
+                    <h3 className="text-lg sm:text-xl font-bold mb-3 group-hover:text-primary transition-colors">{service.title}</h3>
+                    <p className="text-gray-300 text-sm sm:text-base leading-relaxed">{service.description}</p>
                   </div>
                 </motion.div>
               );
@@ -428,21 +320,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Differentials Section - Refined */}
-      <section className="py-20 md:py-32 bg-secondary/20 relative overflow-hidden">
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl -z-10" />
-        
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">
-              Por que contratar Jackson Souza?
-            </h2>
+      {/* Differentials Section */}
+      <section className="py-16 md:py-32 bg-secondary/20 relative overflow-hidden">
+        <div className="container mx-auto px-4">
+          <motion.div className="mb-12 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4">Por que contratar Jackson Souza?</h2>
             <div className="w-12 h-1 bg-gradient-to-r from-primary to-accent" />
           </motion.div>
 
@@ -451,7 +333,7 @@ export default function Home() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid md:grid-cols-2 gap-6 max-w-4xl"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 max-w-4xl"
           >
             {[
               '6 anos de experiência em tecnologia',
@@ -464,39 +346,23 @@ export default function Home() {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="group flex items-center gap-4 p-6 bg-gradient-to-r from-primary/5 to-transparent border border-primary/20 rounded-lg hover:border-primary/50 hover:bg-gradient-to-r hover:from-primary/10 hover:to-accent/5 transition-all"
+                className="group flex items-center gap-4 p-4 md:p-6 bg-gradient-to-r from-primary/5 to-transparent border border-primary/20 rounded-lg hover:border-primary/50 transition-all"
               >
                 <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
                   <CheckCircle2 className="w-4 h-4 text-accent-foreground" />
                 </div>
-                <span className="text-base font-medium group-hover:text-primary transition-colors">{item}</span>
+                <span className="text-sm sm:text-base font-medium group-hover:text-primary transition-colors">{item}</span>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Results Section - Premium Stats */}
-      <section id="resultados" className="py-20 md:py-32 relative overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: 'url(https://d2xsxph8kpxj0f.cloudfront.net/310519663687822829/QTZgq38mbQhk2GtBwKsHzo/results-pattern-ErpurUJAb6PG2KbZhPJReV.webp)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background" />
-
-        <div className="container relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">Resultados que Comprovam</h2>
+      {/* Results Section */}
+      <section id="resultados" className="py-16 md:py-32 relative overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div className="mb-12 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4">Resultados que Comprovam</h2>
             <div className="w-12 h-1 bg-gradient-to-r from-primary to-accent" />
           </motion.div>
 
@@ -505,7 +371,7 @@ export default function Home() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
           >
             {[
               { number: 500000, label: 'Impactos Gerados', suffix: '+' },
@@ -516,16 +382,14 @@ export default function Home() {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="group relative text-center p-8 bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 rounded-2xl hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all"
+                className="group relative text-center p-6 md:p-8 bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 rounded-2xl hover:border-primary/50 transition-all"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                
                 <div className="relative z-10">
-                  <div className="text-5xl md:text-6xl font-bold text-primary mb-3 group-hover:text-accent transition-colors">
+                  <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-3 group-hover:text-accent transition-colors">
                     <Counter end={stat.number} />
                     {stat.suffix}
                   </div>
-                  <p className="text-gray-300 font-medium">{stat.label}</p>
+                  <p className="text-gray-300 text-sm sm:text-base font-medium">{stat.label}</p>
                 </div>
               </motion.div>
             ))}
@@ -533,17 +397,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section - Editorial */}
-      <section id="depoimentos" className="py-20 md:py-32 bg-secondary/20">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">O que Meus Clientes Dizem</h2>
+      {/* Testimonials Section */}
+      <section id="depoimentos" className="py-16 md:py-32 bg-secondary/20">
+        <div className="container mx-auto px-4">
+          <motion.div className="mb-12 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4">O que Meus Clientes Dizem</h2>
             <div className="w-12 h-1 bg-gradient-to-r from-primary to-accent" />
           </motion.div>
 
@@ -552,38 +410,24 @@ export default function Home() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid md:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
           >
             {[
-              {
-                text: 'Em menos de 30 dias começamos a receber contatos diariamente pelo WhatsApp. Transformou completamente nosso negócio.',
-                author: 'Carlos Mendes',
-                role: 'Empresário',
-              },
-              {
-                text: 'O investimento se pagou rapidamente. Jackson é um profissional excepcional que realmente entende de tráfego pago.',
-                author: 'Juliana Costa',
-                role: 'Proprietária de Clínica',
-              },
-              {
-                text: 'Nossa empresa finalmente começou a aparecer no Google. Os resultados superaram nossas expectativas.',
-                author: 'Roberto Lima',
-                role: 'Loja Local',
-              },
+              { text: 'Em menos de 30 dias começamos a receber contatos diariamente pelo WhatsApp. Transformou completamente nosso negócio.', author: 'Carlos Mendes', role: 'Empresário' },
+              { text: 'O investimento se pagou rapidamente. Jackson é um profissional excepcional que realmente entende de tráfego pago.', author: 'Juliana Costa', role: 'Proprietária de Clínica' },
+              { text: 'Nossa empresa finalmente começou a aparecer no Google. Os resultados superaram nossas expectativas.', author: 'Roberto Lima', role: 'Loja Local' },
             ].map((testimonial, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="group relative bg-gradient-to-br from-card to-secondary/30 border border-primary/20 rounded-2xl p-8 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all"
+                className="group relative bg-gradient-to-br from-card to-secondary/30 border border-primary/20 rounded-2xl p-6 md:p-8 hover:border-primary/50 transition-all"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                
                 <div className="relative z-10">
-                  <div className="text-accent opacity-30 text-5xl mb-4">"</div>
-                  <p className="text-gray-200 mb-6 italic leading-relaxed">{testimonial.text}</p>
+                  <div className="text-accent opacity-30 text-4xl mb-2">"</div>
+                  <p className="text-gray-200 text-sm sm:text-base mb-6 italic leading-relaxed">{testimonial.text}</p>
                   <div className="border-t border-primary/20 pt-4">
-                    <p className="font-bold text-primary">{testimonial.author}</p>
-                    <p className="text-sm text-gray-400">{testimonial.role}</p>
+                    <p className="font-bold text-primary text-sm sm:text-base">{testimonial.author}</p>
+                    <p className="text-xs text-gray-400">{testimonial.role}</p>
                   </div>
                 </div>
               </motion.div>
@@ -592,28 +436,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Process Section - Editorial */}
-      <section className="py-20 md:py-32 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10" />
-        
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">Meu Processo Comprovado</h2>
+      {/* Process Section */}
+      <section className="py-16 md:py-32 relative overflow-hidden">
+        <div className="container mx-auto px-4">
+          <motion.div className="mb-12 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4">Meu Processo Comprovado</h2>
             <div className="w-12 h-1 bg-gradient-to-r from-primary to-accent" />
           </motion.div>
 
+          {/* ADICIONADO COLS-1 E SM:COLS-2 */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid md:grid-cols-4 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {[
               { step: '01', title: 'Diagnóstico Gratuito', description: 'Análise completa da sua situação atual' },
@@ -621,22 +458,16 @@ export default function Home() {
               { step: '03', title: 'Implementação', description: 'Execução das campanhas e estratégias' },
               { step: '04', title: 'Otimização Contínua', description: 'Monitoramento e melhorias constantes' },
             ].map((process, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                className="group relative"
-              >
-                <div className="bg-gradient-to-br from-card to-secondary/30 border border-primary/20 rounded-2xl p-8 text-center h-full flex flex-col justify-between hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                  
+              <motion.div key={index} variants={itemVariants} className="group relative">
+                <div className="bg-gradient-to-br from-card to-secondary/30 border border-primary/20 rounded-2xl p-6 md:p-8 text-center h-full flex flex-col justify-between hover:border-primary/50 transition-all">
                   <div className="relative z-10">
-                    <div className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4">{process.step}</div>
-                    <h3 className="text-xl font-bold mb-3">{process.title}</h3>
-                    <p className="text-gray-300 text-sm">{process.description}</p>
+                    <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4">{process.step}</div>
+                    <h3 className="text-lg md:text-xl font-bold mb-3">{process.title}</h3>
+                    <p className="text-gray-300 text-xs sm:text-sm">{process.description}</p>
                   </div>
                 </div>
                 {index < 3 && (
-                  <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-1 bg-gradient-to-r from-primary to-accent transform -translate-y-1/2" />
+                  <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-1 bg-gradient-to-r from-primary to-accent transform -translate-y-1/2" />
                 )}
               </motion.div>
             ))}
@@ -644,54 +475,47 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section - Asymmetric */}
-      <section id="sobre" className="py-20 md:py-32 bg-secondary/20 relative overflow-hidden">
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl -z-10" />
-        
-        <div className="container">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="relative hidden md:block order-2 md:order-1"
-            >
+     {/* About Section */}
+      <section id="sobre" className="py-16 md:py-32 bg-secondary/20 relative overflow-hidden">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+            
+            {/* Imagem - Agora visível em todos os tamanhos. No mobile ela vem primeiro (order-1), no desktop ela se alinha à esquerda (md:order-1) */}
+            <div className="relative order-1 md:order-1 max-w-md mx-auto md:max-w-none w-full">
               <div className="relative w-full aspect-square">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/20 rounded-3xl blur-3xl" />
-                <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 to-primary/10 rounded-3xl blur-2xl" />
-                
                 <img
                   src="/gestordetrafegooficial.png"
                   alt="Jackson Souza"
-                  className="relative w-full h-full object-cover rounded-3xl border-2 border-primary/40 shadow-2xl shadow-primary/20"
+                  className="relative w-full h-full object-cover rounded-3xl border-2 border-primary/40 shadow-2xl"
                 />
               </div>
-            </motion.div>
+            </div>
 
+            {/* Texto - No mobile fica abaixo da foto (order-2), no desktop fica à direita (md:order-2) */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="space-y-8 order-1 md:order-2"
+              className="space-y-6 md:space-y-8 order-2 md:order-2"
             >
-              <h2 className="text-5xl md:text-6xl font-bold leading-tight">Sobre Jackson Souza</h2>
+              <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight">Sobre Jackson Souza</h2>
               <div className="w-12 h-1 bg-gradient-to-r from-primary to-accent" />
               
-              <div className="space-y-6 text-gray-300 leading-relaxed">
-                <p className="text-lg">
+              <div className="space-y-4 text-gray-300 text-sm sm:text-base leading-relaxed">
+                <p>
                   Atuo há mais de 6 anos na área de tecnologia, desenvolvendo soluções digitais, estratégias de marketing e campanhas de tráfego pago voltadas para geração de resultados mensuráveis.
                 </p>
-                <p className="text-lg">
+                <p>
                   Minha missão é simples: ajudar empresas locais a conquistarem mais clientes através da internet utilizando estratégias inteligentes, comprovadas e focadas em ROI.
                 </p>
-                <p className="text-lg font-medium text-primary">
+                <p className="font-medium text-primary">
                   Não trabalho com promessas vazias. Trabalho com resultados.
                 </p>
               </div>
               
-              <button onClick={openWhatsApp} className="btn-primary text-base font-bold">
+              <button onClick={openWhatsApp} className="btn-primary text-base font-bold w-full sm:w-auto">
                 Vamos Conversar
               </button>
             </motion.div>
@@ -699,45 +523,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA Section - Premium */}
-      <section className="py-20 md:py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10" />
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
-        </div>
-        
-        <div className="container relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold mb-8">
-              Pronto para atrair mais clientes?
-            </h2>
-            <p className="text-xl text-gray-300 mb-12 leading-relaxed">
-              Solicite uma análise gratuita e descubra as oportunidades específicas que podem aumentar suas vendas nos próximos 30 dias.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <button className="btn-secondary text-lg font-bold">
-                Solicitar Diagnóstico
-              </button>
-              <button
-                onClick={openWhatsApp}
-                className="btn-outline text-lg font-bold flex items-center justify-center gap-2"
-              >
-                <MessageCircle className="w-5 h-5" />
-                Chamar no WhatsApp
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+    {/* Final CTA Section */}
+    <section className="py-16 md:py-32 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10" />
+      <div className="container mx-auto px-4 relative z-10 text-center">
+        <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6">Pronto para dominar o seu mercado local?</h2>
+        <p className="text-base sm:text-lg text-gray-300 mb-8 max-w-xl mx-auto">
+          Não deixe dinheiro na mesa enquanto seus concorrentes crescem. Reserve agora sua sessão de diagnóstico 100% gratuita.
+        </p>
+        <button onClick={openWhatsApp} className="btn-primary text-base font-bold py-4 px-8 w-full sm:w-auto">
+          Garantir Meu Diagnóstico Gratuito
+        </button>
+      </div>
+    </section>
 
-      {/* Footer */}
+    {/* Footer */}
       <footer className="bg-secondary/50 border-t border-primary/20 py-12">
         <div className="container">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
