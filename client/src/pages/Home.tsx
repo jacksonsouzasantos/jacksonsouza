@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, CheckCircle2, TrendingUp, Users, Zap, Target, ArrowRight, Menu, X } from 'lucide-react';
+import { MessageCircle, CheckCircle2, TrendingUp, Users, Zap, Target, ArrowRight, Menu, X, Icon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion'; // Adicionado AnimatePresence para o fechar do menu ficar suave
 
 const whatsappNumber = '55 83 99816-1003'; 
@@ -157,10 +157,11 @@ export default function Home() {
               <div>
                 {/* TIPOGRAFIA AJUSTADA AQUI PARA MOBILE */}
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-6 tracking-tight">
-                   Pare de perder os seus clientes
+                   Sua Ótica de Portas Abertas, mas o Balcão Continua Vazio?
                 </h1>
                 <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-lg">
-                  Enquanto seus concorrentes aparecem no Google e nas redes sociais, você fica para trás. Eu ajudo empresas locais a atrair mais clientes através de estratégias comprovadas de tráfego pago.
+                  Muitas óticas concorrentes da sua região estão com o WhatsApp lotado de clientes enviando receitas, você continua dependendo apenas de quem passa na calçada.
+Eu combino inteligência de dados com tráfego pago especializado para atrair pessoas que precisam comprar óculos de grau ou de sol agora mesmo para a sua ótica.
                 </p>
               </div>
 
@@ -241,12 +242,13 @@ export default function Home() {
               className="grid grid-cols-1 gap-4"
             >
               {[
+                { icon: '❓', text: 'Por que a sua Ótica não está vendendo como deveria?' },
                 { icon: '📞', text: 'Poucos clientes entrando em contato' },
                 { icon: '🤝', text: 'Dependência de indicações' },
-                { icon: '🔍', text: 'Concorrentes aparecendo primeiro no Google' },
-                { icon: '📱', text: 'Baixo retorno das redes sociais' },
-                { icon: '📊', text: 'Falta de previsibilidade nas vendas' },
-                { icon: '💰', text: 'Investimento em anúncios sem resultado' },
+                { icon: '🕵️‍♂️', text: 'Laboratório parado: Seus vendedores passam o dia limpando vitrine em vez de fechar vendas' },
+                { icon: '📱', text: 'Panfletagem digital sem retorno: Você posta fotos de armações no Instagram, mas só recebe curtidas de amigos e nenhuma mensagem de compra' },
+                { icon: '📉', text: 'Estoque de armações encalhado: Modelos de marca parados enquanto o boleto dos fornecedores não para de chegar' },
+                { icon: '🔍', text: 'Invisível na sua cidade: Quando alguém pesquisa "Ótica perto de mim" ou "Onde fazer óculos de grau" no Google, o seu concorrente aparece primeiro.' },
               ].map((problem, index) => (
                 <motion.div
                   key={index}
@@ -336,12 +338,13 @@ export default function Home() {
             className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 max-w-4xl"
           >
             {[
-              '6 anos de experiência em tecnologia',
+              'conhecimento profundo do mercado local: Entendo as nuances do comportamento de consumo na sua cidade, o que me permite criar campanhas altamente segmentadas e eficazes.',
               'Conhecimento em programação e desenvolvimento',
-              'Especialista em marketing digital',
-              'Visão estratégica de negócios',
-              'Atendimento personalizado e dedicado',
-              'Foco total em resultados mensuráveis',
+              'Diferente de agências tradicionais que só se preocupam com "curtidas", eu trago a bagagem de 6 anos de experiência em tecnologia e análise de dados para o seu negócio.',
+              'Eu não faço adivinhações. Eu acompanho o seu Retorno sobre o Investimento (ROI) de forma científica, garantindo que cada real investido em anúncios esteja trazendo clientes reais para a sua loja.',
+              'Análise de Dados Real: Identifico quais bairros e públicos dão mais lucro para sua loja.',
+              'Estratégias de Geolocalização: Anúncios focados exatamente no raio de alcance físico da sua ótica.',
+              'Transparência Total: Você saberá exatamente quantos reais investiu e quantos clientes novos entraram no seu caixa.',
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -413,9 +416,9 @@ export default function Home() {
             className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
           >
             {[
-              { text: 'Em menos de 30 dias começamos a receber contatos diariamente pelo WhatsApp. Transformou completamente nosso negócio.', author: 'Carlos Mendes', role: 'Empresário' },
-              { text: 'O investimento se pagou rapidamente. Jackson é um profissional excepcional que realmente entende de tráfego pago.', author: 'Juliana Costa', role: 'Proprietária de Clínica' },
-              { text: 'Nossa empresa finalmente começou a aparecer no Google. Os resultados superaram nossas expectativas.', author: 'Roberto Lima', role: 'Loja Local' },
+              { text: 'Em menos de 30 dias começamos a receber contatos diariamente pelo WhatsApp. Transformou completamente nosso negócio.', author: 'Carlos Mendes', role: 'Marcos Silva – Dono de Ótica Local' },
+              { text: 'O investimento se pagou logo na primeira quinzena. O Jackson entende muito de comportamento de consumo local e direcionou os anúncios para o público certo.', author: 'Juliana Costa', role: 'Proprietária de Clínica de Olhos / Estética' },
+              { text: 'Nossa empresa finalmente começou a aparecer no Google. Os resultados superaram nossas expectativas.', author: 'Roberto Lima', role: 'Proprietário de Ótica Local' },
             ].map((testimonial, index) => (
               <motion.div
                 key={index}
@@ -527,9 +530,11 @@ export default function Home() {
     <section className="py-16 md:py-32 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10" />
       <div className="container mx-auto px-4 relative z-10 text-center">
-        <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6">Pronto para dominar o seu mercado local?</h2>
+        <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6">O estoque da sua ótica não vai se vender sozinho</h2>
         <p className="text-base sm:text-lg text-gray-300 mb-8 max-w-xl mx-auto">
-          Não deixe dinheiro na mesa enquanto seus concorrentes crescem. Reserve agora sua sessão de diagnóstico 100% gratuita.
+         Enquanto você lê esta página, potenciais clientes estão comprando óculos na ótica do outro lado da rua porque foram impactados por um anúncio deles.
+
+Não deixe o faturamento da sua empresa ao acaso. Clique abaixo e agende uma Sessão de Diagnóstico 100% Gratuita. Vou te mostrar o plano exato para aplicar na sua cidade.
         </p>
         <button onClick={openWhatsApp} className="btn-primary text-base font-bold py-4 px-8 w-full sm:w-auto">
           Garantir Meu Diagnóstico Gratuito
